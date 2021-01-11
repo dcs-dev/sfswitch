@@ -24,25 +24,30 @@ Note: As of Jan 2021, this code uses Python 2.7, which is deprecated. Since it h
 ### Install Requirements
 #### Virtual Environments
 First, ensure you have a tool for managing virtual environments. If not, we recommend running:
+
 ```brew install pyenv-virtualenv```
 
 [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) is a pyenv plugin that provides features to manage virtualenvs and conda environments for Python on UNIX-like systems.
 
 List all available virtual environments.
+
 ```pyenv virtualenvs```
 
 Check that the virtual environment you want to use exits. If not, create it.
 
 To create or activate a virtual environment, run:
+
 ```pyenv activate <name of environment>```
 
-For example
+For example:
+
 ```pyenv activate 2.7.14/envs/my-virtual-env-2.7.14```
 
 #### Proxy Connection for OAuth
 OAuth requires a callback URL that is reachable by the Salesforce server. Thus, we need to open a connection on the local computer for the server to the webserver to use. A simple way is to use a proxy that will create a web accessible URL for the local web server and forward all requests to it.
 
 Run: 
+
 ```brew cask install ngrok```
 
 #### Celery
@@ -55,6 +60,7 @@ Note: While the web server automatically restarts if you make changes, Celery do
 
 #### Update Local Connection Details
 The project must connect to a database. Update credentials for a PostgreSQL server in `settings.py`.
+
 ```
 DATABASES = {
     'default': {
@@ -69,32 +75,38 @@ DATABASES = {
 ```
 #### Install Project Dependencies
 Install all the dependencies in the virtual environment
+
 ```pip install -r requirements.txt```
 
 ### Create Tables in Database
-For Python 2.7.x ONLY:
+_For Python 2.7.x ONLY:_
 
 Create all the tables in the database by running:
+
 ```python manage.py syncdb```
 
-For Python 3+ ONLY:
+_For Python 3+ ONLY:_
+
 Create all the tables in the database by running:
+
 ```python manage.py migrate```
 
 ### Start the Local Web Server, Celery, and Redis
-Start the proxy connection:
+1. Start the proxy connection:
 ```ngrok http 8000```
 
-Copy the URL and paste it in the LOCAL_PROXY_URL field in `settings.py`.
+2. Copy the URL and paste it in the LOCAL_PROXY_URL field in `settings.py`.
 
-Start the web server:
+3. Start the web server:
 
 ```python manage.py runserver```
 
-Start Redis:
+4. In a separate terminal window, start Redis:
+
 ```redis-server```
 
-Start Celery:
+5. In a separate terminal window, start Celery:
+
 ```celery -A enable_disable.tasks worker```
 
 
