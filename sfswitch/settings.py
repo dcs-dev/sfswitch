@@ -19,7 +19,6 @@ THUMBNAIL_DEBUG = DEBUG
 # PYTHONIOENCODING="UTF-8"
 
 ADMINS = (
-    # ('Ben Edwards', 'ben@edwards.nz'),
     ('Dupont Circle Solutions', 'dev@dupontcirclesolutions.com')
 )
 
@@ -78,6 +77,9 @@ DATABASES = {
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# REDISTOGO_URL = 'redis://localhost:6379/0'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -108,7 +110,16 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
 # SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 
-SALESFORCE_CONSUMER_KEY = 'test'
-SALESFORCE_CONSUMER_SECRET = 'test'
-SALESFORCE_REDIRECT_URI = 'test'
-SALESFORCE_API_VERSION = '41'
+# Replace this value with the URL from ngrok when running locally
+# **NOTE: This must match the value in the connected app in Salesforce
+# ngrok http 8000
+LOCAL_PROXY_DOMAIN = '16c68c956f28.ngrok.io'
+
+# OAuth configuration for Web app
+SALESFORCE_REDIRECT_URI = 'https://' + LOCAL_PROXY_DOMAIN + '/oauth_response'
+SALESFORCE_CONSUMER_KEY = '3MVG9Kip4IKAZQEVXeYMkMmDZFE7wRJE95oDlNnw7K_UOzkaTv9nKYuXXQqzhXUua5AJzsOy1IbeZeXZCMFcx'
+SALESFORCE_CONSUMER_SECRET = '38A767732BB51833692D1DD5760D59B9CDFEC068B13F6B1A907820340EBF8B72'
+# SALESFORCE_API_VERSION = '41'
+SALESFORCE_API_VERSION = '38'
+
+
