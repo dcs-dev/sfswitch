@@ -113,7 +113,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Replace this value with the URL from ngrok when running locally
 # **NOTE: This must match the value in the connected app in Salesforce
 # ngrok http 8000
-LOCAL_PROXY_DOMAIN = '16c68c956f28.ngrok.io'
+LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
 
 # OAuth configuration for Web app
 SALESFORCE_REDIRECT_URI = 'https://' + LOCAL_PROXY_DOMAIN + '/oauth_response'
