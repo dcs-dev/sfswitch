@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, RedirectView
 from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
-from app import views
+from enable_disable import views
 
 admin.autodiscover() 
 
