@@ -116,13 +116,26 @@ TEMPLATE_DIRS = (
 )
 
 # STATIC_ROOT = 'staticfiles'
-STATIC_ROOT = 'static'
+STATIC_ROOT = '/sfswitch/static'
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+# STATIC_ROOT = 'static'
+# STATIC_URL = '/static/'
+# ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+# STATICFILES_DIRS = (
+#     os.path.join(PROJECT_PATH, 'static'),
+# )
+
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, 'static'),
+    os.path.join(PROJECT_PATH, '../sfswitch/static'),
+    
+    # os.path.join(BASE_DIR, 'sfswitch', 'media_root')
 )
+# = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn', 'media_root')
+
+# https://stackoverflow.com/questions/50014616/oserror-errno-30-read-only-file-system-in-django-on-heroku
 
 ##STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
