@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'import_export',
     'enable_disable',
+    'sfswitch'
 )
 
 MIDDLEWARE_CLASSES = (

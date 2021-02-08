@@ -129,9 +129,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # )
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, '../sfswitch/static'),
+    # os.path.join(PROJECT_PATH, '../sfswitch/static'),
     
-    # os.path.join(BASE_DIR, 'sfswitch', 'media_root')
+    os.path.join(BASE_DIR, 'sfswitch', 'static')
 )
 # = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn', 'media_root')
 
