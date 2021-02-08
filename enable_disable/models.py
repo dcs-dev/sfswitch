@@ -31,7 +31,7 @@ class Job(models.Model):
 
 class ValidationRule(models.Model):
 	job = models.ForeignKey(Job)(
-        'job',
+        'Job',
         on_delete=models.CASCADE,
     )
 	object_name = models.CharField(max_length=255, blank=True, null=True)
