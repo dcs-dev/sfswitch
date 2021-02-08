@@ -30,8 +30,8 @@ class Job(models.Model):
 		return '%s' % (self.random_id)
 
 class ValidationRule(models.Model):
-	job = models.ForeignKey(Job)(
-        'job',
+	job = models.ForeignKey(
+        'Job',
         on_delete=models.CASCADE,
     )
 	object_name = models.CharField(max_length=255, blank=True, null=True)
@@ -47,8 +47,8 @@ class ValidationRule(models.Model):
 		return '%s' % (self.fullName)
 
 class WorkflowRule(models.Model):
-	job = models.ForeignKey(Job)(
-        'job',
+	job = models.ForeignKey(
+        'Job',
         on_delete=models.CASCADE,
     )
 	object_name = models.CharField(max_length=255, blank=True, null=True)
@@ -67,8 +67,8 @@ class WorkflowRule(models.Model):
 		return '%s' % (self.fullName)
 
 class ApexTrigger(models.Model):
-	job = models.ForeignKey(Job)(
-        'job',
+	job = models.ForeignKey(
+        'Job',
         on_delete=models.CASCADE,
     )
 	active = models.BooleanField(default=False)
@@ -80,8 +80,8 @@ class ApexTrigger(models.Model):
 		return '%s' % (self.name)
 
 class Flow(models.Model):
-	job = models.ForeignKey(Job)(
-        'job',
+	job = models.ForeignKey(
+        'Job',
         on_delete=models.CASCADE,
     )
 	flow_id = models.CharField(max_length=255, blank=True, null=True)
@@ -95,8 +95,8 @@ class Flow(models.Model):
 
 
 class DeployJob(models.Model):
-	job = models.ForeignKey(Job)(
-        'job',
+	job = models.ForeignKey(
+        'Job',
         on_delete=models.CASCADE,
     )
 	metadata_type = models.CharField(max_length=255, blank=True, null=True)
@@ -108,11 +108,34 @@ class DeployJob(models.Model):
 		return '%s - %s' % (self.job.username, self.metadata_type)
 
 class DeployJobComponent(models.Model):
-	deploy_job = models.ForeignKey(DeployJob)
-	validation_rule = models.ForeignKey(ValidationRule, blank=True, null=True)
-	workflow_rule = models.ForeignKey(WorkflowRule, blank=True, null=True)
-	flow = models.ForeignKey(Flow, blank=True, null=True)
-	trigger = models.ForeignKey(ApexTrigger, blank=True, null=True)
+	deploy_job = models.ForeignKey(
+        'DeployJob',
+        on_delete=models.CASCADE,
+    )
+	validation_rule = models.ForeignKey(
+		'ValidationRule', 
+		blank=True, 
+		null=True, 
+		on_delete=models.CASCADE
+	)
+	workflow_rule = models.ForeignKey(
+		'WorkflowRule',
+		 blank=True,
+		  null=True, 
+		  on_delete=models.CASCADE
+		)
+	flow = models.ForeignKey(
+		'Flow', 
+		blank=True, 
+		null=True, 
+		on_delete=models.CASCADE
+	)
+	trigger = models.ForeignKey(
+		'ApexTrigger',
+		blank=True,
+		null=True,
+		on_delete=models.CASCADE
+	)
 	enable = models.BooleanField()
 	status = models.CharField(max_length=255, blank=True, null=True)
 	error = models.TextField(blank=True, null=True)
