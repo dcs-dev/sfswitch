@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
@@ -14,9 +14,9 @@ import requests
 import datetime
 from time import sleep
 import sys
-# from urllib.parse import urlencode  # will be needed python
+from urllib.parse import urlencode  # will be needed python 3
 # from urllib import urlencode
-import urllib
+# import urllib
 
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
@@ -36,13 +36,13 @@ def index(request):
                 oauth_url = 'https://test.salesforce.com/services/oauth2/authorize'
 
             # oauth_url =  urllib.parse.urlencode(oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment)
-            oauth_url =  oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&' + urllib.urlencode({'redirect_uri':settings.SALESFORCE_REDIRECT_URI}) + '&state='+ environment
+            oauth_url =  oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&' + urlencode({'redirect_uri':settings.SALESFORCE_REDIRECT_URI}) + '&state='+ environment
 
             return HttpResponseRedirect(oauth_url)
     else:
         login_form = LoginForm()
 
-    return render_to_response('index.html', RequestContext(request,{'login_form': login_form}))
+    return render(request, 'index.html', {'login_form': login_form})
 
 def oauth_response(request):
 
