@@ -30,7 +30,10 @@ class Job(models.Model):
 		return '%s' % (self.random_id)
 
 class ValidationRule(models.Model):
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job)(
+        'job',
+        on_delete=models.CASCADE,
+    )
 	object_name = models.CharField(max_length=255, blank=True, null=True)
 	name = models.CharField(max_length=255, blank=True, null=True)
 	active = models.BooleanField()
@@ -44,7 +47,10 @@ class ValidationRule(models.Model):
 		return '%s' % (self.fullName)
 
 class WorkflowRule(models.Model):
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job)(
+        'job',
+        on_delete=models.CASCADE,
+    )
 	object_name = models.CharField(max_length=255, blank=True, null=True)
 	name = models.CharField(max_length=255, blank=True, null=True)
 	active = models.BooleanField()
@@ -61,7 +67,10 @@ class WorkflowRule(models.Model):
 		return '%s' % (self.fullName)
 
 class ApexTrigger(models.Model):
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job)(
+        'job',
+        on_delete=models.CASCADE,
+    )
 	active = models.BooleanField(default=False)
 	content = models.TextField(blank=True, null=True)
 	meta_content = models.TextField(blank=True, null=True)
@@ -71,7 +80,10 @@ class ApexTrigger(models.Model):
 		return '%s' % (self.name)
 
 class Flow(models.Model):
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job)(
+        'job',
+        on_delete=models.CASCADE,
+    )
 	flow_id = models.CharField(max_length=255, blank=True, null=True)
 	active = models.BooleanField(default=False)
 	name = models.CharField(max_length=255, blank=True, null=True)
@@ -83,7 +95,10 @@ class Flow(models.Model):
 
 
 class DeployJob(models.Model):
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job)(
+        'job',
+        on_delete=models.CASCADE,
+    )
 	metadata_type = models.CharField(max_length=255, blank=True, null=True)
 	deploy_result = models.TextField(blank=True, null=True)
 	status = models.CharField(max_length=255, blank=True, null=True)
