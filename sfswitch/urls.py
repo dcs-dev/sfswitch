@@ -7,7 +7,7 @@ from django.urls import re_path
 admin.autodiscover() 
 
 urlpatterns = [
-    path('$', 'enable_disable.views.index', name='index'),
+    path('$', views.index, name='index'),
     path('admin/', include(admin.site.urls)),
     path('oauth_response/$', 'enable_disable.views.oauth_response', name='oauth_response'),
     path('logout/$', 'enable_disable.views.logout', name='logout'),
