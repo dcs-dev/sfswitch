@@ -7,10 +7,10 @@ from django.urls import re_path
 admin.autodiscover() 
 
 urlpatterns = [
-    path('^$', 'enable_disable.views.index', name='index'),
-    path('^admin/', include(admin.site.urls)),
-    path('^oauth_response/$', 'enable_disable.views.oauth_response', name='oauth_response'),
-    path('^logout/$', 'enable_disable.views.logout', name='logout'),
+    path('$', 'enable_disable.views.index', name='index'),
+    path('admin/', include(admin.site.urls)),
+    path('oauth_response/$', 'enable_disable.views.oauth_response', name='oauth_response'),
+    path('logout/$', 'enable_disable.views.logout', name='logout'),
     re_path(r'^loading/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'enable_disable.views.loading'),
     re_path(r'^job_status/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'enable_disable.views.job_status'),
     re_path(r'^job/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'enable_disable.views.job'),
