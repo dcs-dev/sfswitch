@@ -108,7 +108,10 @@ class DeployJob(models.Model):
 		return '%s - %s' % (self.job.username, self.metadata_type)
 
 class DeployJobComponent(models.Model):
-	deploy_job = models.ForeignKey(DeployJob)
+	deploy_job = models.ForeignKey(
+        'DeployJob',
+        on_delete=models.CASCADE,
+    )
 	validation_rule = models.ForeignKey(ValidationRule, blank=True, null=True)
 	workflow_rule = models.ForeignKey(WorkflowRule, blank=True, null=True)
 	flow = models.ForeignKey(Flow, blank=True, null=True)
