@@ -19,7 +19,6 @@ THUMBNAIL_DEBUG = DEBUG
 # PYTHONIOENCODING="UTF-8"
 
 ADMINS = (
-    # ('Ben Edwards', 'ben@edwards.nz'),
     ('Dupont Circle Solutions', 'dev@dupontcirclesolutions.com')
 )
 
@@ -68,16 +67,19 @@ WSGI_APPLICATION = 'sfswitch.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'sFt007k1t',
-        'HOST': 'localhost',
+        'NAME': 'postgres', # os.environ['PG_DB_NAME']
+        'USER': 'postgres', # os.environ['PG_USERNAME']
+        'PASSWORD': 'sFt007k1t', # os.environ['PG_PASSWORD']
+        'HOST': 'localhost', # os.environ['PG_HOST']
         'PORT': '5432'
     }
 }
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# REDISTOGO_URL = 'redis://localhost:6379/0'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -103,12 +105,27 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-#SALESFORCE_CONSUMER_KEY = os.environ['3MVG9ysJNY7CaIHnlveju4dkFeSJ.PpYyY.AZZPCG1KoJljzBHd1YP_89QLaxM9A43z8eD.TH3NBNFnM3PGvv']
-#SALESFORCE_CONSUMER_SECRET = os.environ['1A9A2AB3FA44789E4342B673FF84F1047CDC225EE94F9025B81B59E9A0BCB0F0']
-#SALESFORCE_REDIRECT_URI = os.environ['https://127.0.0.1']
-#SALESFORCE_API_VERSION = int(os.environ['49.0'])
 
-SALESFORCE_CONSUMER_KEY = '3MVG9ysJNY7CaIHnlveju4dkFeSJ.PpYyY.AZZPCG1KoJljzBHd1YP_89QLaxM9A43z8eD.TH3NBNFnM3PGvv'
-SALESFORCE_CONSUMER_SECRET = '1A9A2AB3FA44789E4342B673FF84F1047CDC225EE94F9025B81B59E9A0BCB0F0'
-SALESFORCE_REDIRECT_URI = 'https://fe3a9dc08996.ngrok.io'
-SALESFORCE_API_VERSION = '49.0'
+# SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
+
+
+# Replace this value with the URL from ngrok when running locally
+# **NOTE: This must match the value in the connected app in Salesforce
+# ngrok http 8000
+LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
+SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
+
+SALESFORCE_OAUTH_DOMAIN = os.environ['SALESFORCE_OAUTH_DOMAIN']
+
+# OAuth configuration for Web app
+SALESFORCE_REDIRECT_URI = 'https://' + SALESFORCE_OAUTH_DOMAIN + '/oauth_response'
+SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
+SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
+SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
+
+# SALESFORCE_CONSUMER_KEY = '3MVG9Kip4IKAZQEVXeYMkMmDZFE7wRJE95oDlNnw7K_UOzkaTv9nKYuXXQqzhXUua5AJzsOy1IbeZeXZCMFcx'
+# SALESFORCE_CONSUMER_SECRET = '38A767732BB51833692D1DD5760D59B9CDFEC068B13F6B1A907820340EBF8B72'
+# # SALESFORCE_API_VERSION = '41'
+# SALESFORCE_API_VERSION = '38'
+
+

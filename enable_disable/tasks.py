@@ -14,13 +14,22 @@ import datetime
 import time
 import sys
 import traceback
+# import the logging library
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
 
-app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
+#TODO: Break this out into a separate Celery app and Celery config file
+# We want to abvoid having to set the broker URL in this place.
+# app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
+app = Celery('tasks', broker=settings.BROKER_URL)
 
 from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger, Flow, DeployJob, DeployJobComponent
 
@@ -34,11 +43,13 @@ def get_metadata(job):
         #TODO: Edit URL and put into config
         # instantiate the metadata WSDL
         # metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.xml')
-        metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
+        metadata_client = Client('http://' + settings.LOCAL_PROXY_DOMAIN + '/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
+        logger.debug("metadata cllient: %s", metadata_client)
 
         # URL for metadata API
         # metadata_url = job.instance_url + '/services/Soap/m/' + str(settings.SALESFORCE_API_VERSION) + '.0/' + job.org_id
         metadata_url = job.instance_url + '/services/Soap/m/' + settings.SALESFORCE_API_VERSION + '.0/' + job.org_id
+        logger.debug("metadata url: %s", metadata_url)
 
         # set the metadata url based on the login result
         metadata_client.set_options(location = metadata_url)
