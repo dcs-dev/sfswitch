@@ -30,7 +30,7 @@ class Job(models.Model):
 		return '%s' % (self.random_id)
 
 class ValidationRule(models.Model):
-	job = models.ForeignKey(Job)(
+	job = models.ForeignKey(
         'Job',
         on_delete=models.CASCADE,
     )
