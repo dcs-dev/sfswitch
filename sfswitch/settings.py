@@ -140,8 +140,8 @@ STATICFILES_DIRS = (
 # Replace this value with the URL from ngrok when running locally
 # **NOTE: This must match the value in the connected app in Salesforce
 # ngrok http 8000
-LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
-SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
+# LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
+# SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
 
 SALESFORCE_OAUTH_DOMAIN = os.environ['SALESFORCE_OAUTH_DOMAIN']
 
