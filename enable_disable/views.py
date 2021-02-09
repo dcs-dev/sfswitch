@@ -127,7 +127,7 @@ def oauth_response(request):
 
                 return HttpResponseRedirect('/loading/' + str(job.random_id))
 
-    return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
+    return render(request, 'oauth_response.html', {'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form})
 
 def logout(request):
 

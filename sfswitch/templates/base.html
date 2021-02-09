@@ -1,25 +1,26 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 	<head>
 		<title>Salesforce.com Switch</title>
 		<meta name="keywords" content="salesforce, salesforce.com, force.com, metadata, enable, disable, validation rules, validation, workflow, trigger" /> 
   		<meta name="description" content="Easily enable and disable Salesforce components - Workflows, Validation Rules and Triggers" />
-  		<meta name="author" content="Ben Edwards (ben@edwards.nz)" />
+  		<meta name="author" content="Dupont Circle Solutions" />
   		<meta charset="UTF-8" />
 
   		{% block css %}{% endblock %}
   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-switch.min.css" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-switch.min.css' %}" />
 		
 		<!--
 		<link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" type="image/vnd.microsoft.icon" />
 		-->
 		
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+		<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-switch.min.js"></script>
+		<script type="text/javascript" src="{% static 'js/bootstrap-switch.min.js' %}"></script>
 
 		{% block scripts %}{% endblock %}
 
