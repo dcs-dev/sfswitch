@@ -85,13 +85,21 @@ WSGI_APPLICATION = 'sfswitch.wsgi.application'
 # import dj_database_url
 
 DATABASES = {
-    'default': {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'postgres', # os.environ['PG_DB_NAME'],
+    #     'USER': 'postgres', # os.environ['PG_USERNAME'],
+    #     'PASSWORD': 'sFt007k1t', # os.environ['PG_PASSWORD'],
+    #     'HOST': 'localhost', # os.environ['PG_HOST'],
+    #     'PORT': '5432' #os.environ['PG_PORT'],
+    # }
+     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres', # os.environ['PG_DB_NAME']
-        'USER': 'postgres', # os.environ['PG_USERNAME']
-        'PASSWORD': 'sFt007k1t', # os.environ['PG_PASSWORD']
-        'HOST': 'localhost', # os.environ['PG_HOST']
-        'PORT': '5432'
+        'NAME': os.environ['PG_DB_NAME'],
+        'USER': os.environ['PG_USERNAME'],
+        'PASSWORD': os.environ['PG_PASSWORD'],
+        'HOST': os.environ['PG_HOST'],
+        'PORT': os.environ['PG_PORT'],
     }
 }
 
