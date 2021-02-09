@@ -145,7 +145,7 @@ STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'sfswitch', 'static')
 # ]
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
