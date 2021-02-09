@@ -4,7 +4,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
@@ -51,6 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -123,17 +124,28 @@ TEMPLATE_DIRS = (
 )
 
 # STATIC_ROOT = 'staticfiles'
-STATIC_ROOT = 'static'
-STATIC_URL = '/static/'
+#STATIC_ROOT = 'static'
+#STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_PATH, 'static'),
-    os.path.join(BASE_DIR, 'sfswitch', 'static')
-]
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
-##STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_PATH, 'static'),
+#     os.path.join(BASE_DIR, 'sfswitch', 'static')
+# ]
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
