@@ -16,4 +16,5 @@ from django.core.wsgi import get_wsgi_application
 ##from whitenoise.django import DjangoWhiteNoise
 from whitenoise import WhiteNoise
 application = get_wsgi_application()
-application  = WhiteNoise(application, root='static')
+application  = WhiteNoise(application, 'static')
+#application.add_files('sfswitch/static/images')
