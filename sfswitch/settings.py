@@ -130,7 +130,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_PATH, 'static'),
-    os.path.join(BASE_DIR, 'sfswitch' 'static')
+    os.path.join(BASE_DIR, 'sfswitch/static')
 ]
 
 ##STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
