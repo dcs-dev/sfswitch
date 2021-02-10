@@ -9,9 +9,6 @@ except ImportError:
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 SECRET_KEY = 'test'
 
-import django
-django.setup()
-
 ##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
