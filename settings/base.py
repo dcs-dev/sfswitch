@@ -4,8 +4,7 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
-##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Quick-start development settings - unsuitable for production
@@ -16,8 +15,8 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'test'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
-# DEBUG = False
+# DEBUG = os.environ.get('DEBUG', False) == '1'
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 # PYTHONIOENCODING="UTF-8"
@@ -45,15 +44,13 @@ INSTALLED_APPS = (
     'sfswitch'
 )
 
-MIDDLEWARE = (
+MIDDLEWARE_CLASSES = (
     # 'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -88,13 +85,13 @@ WSGI_APPLICATION = 'sfswitch.wsgi.application'
 # import dj_database_url
 
 DATABASES = {
-     'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['PG_DB_NAME'],
-        'USER': os.environ['PG_USERNAME'],
-        'PASSWORD': os.environ['PG_PASSWORD'],
-        'HOST': os.environ['PG_HOST'],
-        'PORT': os.environ['PG_PORT'],
+        'NAME': 'postgres', # os.environ['PG_DB_NAME']
+        'USER': 'postgres', # os.environ['PG_USERNAME']
+        'PASSWORD': 'sFt007k1t', # os.environ['PG_PASSWORD']
+        'HOST': 'localhost', # os.environ['PG_HOST']
+        'PORT': '5432'
     }
 }
 
@@ -118,26 +115,15 @@ TEMPLATE_DIRS = (
 )
 
 # STATIC_ROOT = 'staticfiles'
-#STATIC_ROOT = 'static'
-#STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, 'static'),
+)
 
-#TODO: These might be able to be removed. Check later.
-STATIC_TMP = os.path.join(BASE_DIR, 'static')
-os.makedirs(STATIC_TMP, exist_ok=True)
-os.makedirs(STATIC_ROOT, exist_ok=True)
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+##STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
@@ -146,8 +132,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Replace this value with the URL from ngrok when running locally
 # **NOTE: This must match the value in the connected app in Salesforce
 # ngrok http 8000
-# LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
-# SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
+LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
+SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
 
 SALESFORCE_OAUTH_DOMAIN = os.environ['SALESFORCE_OAUTH_DOMAIN']
 

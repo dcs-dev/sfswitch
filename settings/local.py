@@ -1,4 +1,5 @@
 import os
+from settings.base import *
 from decouple import config
 try:
     import urlparse
