@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'sfswitch'
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     # 'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
