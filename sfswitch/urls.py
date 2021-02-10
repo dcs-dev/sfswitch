@@ -18,6 +18,7 @@ urlpatterns = [
     re_path(r'^update_metadata/(?P<job_id>[0-9A-Za-z_\-]+)/(?P<metadata_type>[0-9A-Za-z_\-]+)/$', views.update_metadata),
     re_path(r'^check_deploy_status/(?P<deploy_job_id>\d+)/$', views.check_deploy_status),
     re_path(r'^auth_details/$', views.auth_details),
+    re_path(r'^static/$', django.views.static.serve, {'document_root': settings.STATIC_ROOT} ),
 ]
 
 # urlpatterns = patterns('',
