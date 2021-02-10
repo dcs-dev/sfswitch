@@ -88,14 +88,6 @@ WSGI_APPLICATION = 'sfswitch.wsgi.application'
 # import dj_database_url
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'postgres', # os.environ['PG_DB_NAME'],
-    #     'USER': 'postgres', # os.environ['PG_USERNAME'],
-    #     'PASSWORD': 'sFt007k1t', # os.environ['PG_PASSWORD'],
-    #     'HOST': 'localhost', # os.environ['PG_HOST'],
-    #     'PORT': '5432' #os.environ['PG_PORT'],
-    # }
      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ['PG_DB_NAME'],
@@ -130,13 +122,12 @@ TEMPLATE_DIRS = (
 #STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
+#TODO: These might be able to be removed. Check later.
 STATIC_TMP = os.path.join(BASE_DIR, 'static')
 os.makedirs(STATIC_TMP, exist_ok=True)
 os.makedirs(STATIC_ROOT, exist_ok=True)
@@ -144,17 +135,9 @@ os.makedirs(STATIC_ROOT, exist_ok=True)
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    # os.path.join(BASE_DIR, 'sfswitch/static'),
 ]
 
-
-# STATICFILES_DIRS = [
-#     os.path.join(PROJECT_PATH, 'static'),
-#     os.path.join(BASE_DIR, 'sfswitch', 'static')
-# ]
-
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
