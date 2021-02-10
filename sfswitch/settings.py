@@ -100,8 +100,8 @@ DATABASES = {
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
-BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+BROKER_URL = os.environ['BROKER_URL']
+CELERY_RESULT_BACKEND = os.environ['CELERY_RESULT_BACKEND']
 # REDISTOGO_URL = 'redis://localhost:6379/0'
 
 # Internationalization
