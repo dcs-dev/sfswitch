@@ -16,8 +16,8 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'test'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('DEBUG', False) == '1'
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
+# DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 # PYTHONIOENCODING="UTF-8"
