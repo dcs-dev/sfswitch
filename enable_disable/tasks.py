@@ -24,8 +24,8 @@ logger = logging.getLogger(__name__)
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
 
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.prod')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.prod')
 
 #TODO: Break this out into a separate Celery app and Celery config file
 # We want to abvoid having to set the broker URL in this place.
