@@ -5,6 +5,13 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
+# SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'test'
+
+import django
+django.setup()
+
 ##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -12,12 +19,7 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = 'test'
 
-import django
-django.setup()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
