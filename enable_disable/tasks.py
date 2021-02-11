@@ -6,6 +6,7 @@ from zipfile import ZipFile
 from suds.client import Client
 from base64 import b64encode, b64decode
 import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
 django.setup()
 import requests
 import json
@@ -28,7 +29,6 @@ logger = logging.getLogger(__name__)
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.prod')
 
 #TODO: Break this out into a separate Celery app and Celery config file
