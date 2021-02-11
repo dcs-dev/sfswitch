@@ -194,9 +194,9 @@ LOGGING = {
         }
     },
     'loggers': {
-        'testlogger': {
+        'sfswitch': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'DEBUG',
         }
     }
 }
