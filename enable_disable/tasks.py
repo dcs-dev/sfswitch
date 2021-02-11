@@ -1,3 +1,6 @@
+import django
+django.setup()
+
 from __future__ import absolute_import
 from __future__ import unicode_literals
 from celery import Celery
@@ -17,8 +20,7 @@ import traceback
 # import the logging library
 import logging
 
-import django
-django.setup()
+
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)

@@ -4,10 +4,11 @@ try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
+    
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-#SECRET_KEY = 'test'
+#SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'test'
 
 ##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
