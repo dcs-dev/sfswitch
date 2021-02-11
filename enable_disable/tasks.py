@@ -18,6 +18,7 @@ import time
 import sys
 import traceback
 # import the logging library
+from celery.utils.log import get_task_logger
 import logging
 
 
