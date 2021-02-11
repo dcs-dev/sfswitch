@@ -5,9 +5,12 @@ try:
 except ImportError:
     import urllib.parse as urlparse
 
+import django
+django.setup()
+
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = 'test'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+#SECRET_KEY = 'test'
 
 ##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,17 +38,17 @@ ALLOWED_HOSTS = ['*', '127.0.0.1', 'sftoolkit.test']
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    ##'import_export',
+    'import_export',
     'enable_disable',
     'sfswitch',
-]
+)
 
 MIDDLEWARE = (
     # 'sslify.middleware.SSLifyMiddleware',
