@@ -38,9 +38,9 @@ ALLOWED_HOSTS = ['*', '127.0.0.1', 'sftoolkit.test']
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
-    # 'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     ##'import_export',
     'enable_disable',
