@@ -1,5 +1,5 @@
-
 import os
+from celery import signals
 try:
     import urlparse
 except ImportError:
