@@ -23,7 +23,8 @@ import logging
 
 
 # Get an instance of a logger
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
+logger = get_task_logger(__name__)
 
 
 # reload(sys)
@@ -40,7 +41,7 @@ from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger
 
 @app.task
 def get_metadata(job):
-
+    logger.debug("Starting get_metadata task")
     job.status = 'Downloading Metadata'
     job.save()
 
@@ -48,7 +49,8 @@ def get_metadata(job):
         #TODO: Edit URL and put into config
         # instantiate the metadata WSDL
         # metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.xml')
-        metadata_client = Client('http://' + settings.LOCAL_PROXY_DOMAIN + '/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
+        # https://brave-bear-lnfru2-dev-ed.my.salesforce.com/services/wsdl/metadata
+        metadata_client = Client('http://' + settings.DJANGO_APP_DOMAIN + '/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
         logger.debug("metadata client: %s", metadata_client)
 
         # URL for metadata API
