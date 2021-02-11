@@ -25,7 +25,7 @@ from urllib.parse import urlencode  # will be needed python 3
 logger = logging.getLogger(__name__)
 
 def index(request):
-
+    logger.debug("New request to index page: %s", request)
     if request.method == 'POST':
 
         login_form = LoginForm(request.POST)
@@ -154,7 +154,7 @@ def job_status(request, job_id):
 
 # Page for user to wait for job to run
 def loading(request, job_id):
-
+    logger.debug("New request to loading: %s -- %s", request, job_id)
     job = get_object_or_404(Job, random_id = job_id)
 
     if job.status == 'Finished':
