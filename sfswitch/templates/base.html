@@ -38,7 +38,7 @@
 
 	<body>
 
-		{% if request.GET.noheader != '1' %}
+		<!-- {% if request.GET.noheader != '1' %} -->
 
 			<!-- Static navbar -->
 	      	<nav class="navbar navbar-default">
@@ -59,15 +59,11 @@
 		          		<ul class="nav navbar-nav navbar-left">
 		          			<li>
 		          				<a href="/" style="padding:5px;">
-		          					<img src="/static/images/logo-small.png" alt="Switch" border="0" />
+									
+		          					<img src="{% static 'images/logo-small.png' %}" alt="Switch" border="0" />
 		          				</a>
 		          			</li>
 							  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-						  <!-- Removing this as I don't think we want to link this external website  
-		              		<li>
-		            			<a href="http://sftoolkit.co/" target="_blank">Salesforce Toolkit</a>
-							</li>
-							-->
 		            	</ul>
 
 		            	<ul class="nav navbar-nav navbar-right">
@@ -75,7 +71,7 @@
 		              			<a href="https://github.com/benedwards44/sfswitch" target="_blank">Source Code</a>
 		              		</li>
 		              		<li>
-		              			<a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a>
+		              			<a href="" target="_blank">Put a Link Here</a>
 		              		</li>
 		              		<li>
 		              			<a href="#">
@@ -106,14 +102,7 @@
 			      		</div>
 			      		<div class="modal-body">
 			        		<p>
-			        			For any errors or issues, please feel free to contact me on twitter <a href="https://twitter.com/benedwards44" target="_blank">@benedwards44</a> or via email <a href="mailto:ben@edwards.nz">ben@edwards.nz</a>.
-			        		</p>
-			        		<p>
-			        			I am constantly trying to update and improve this application, as well as other apps I'm working on. Feel free to contact me if you'd like to contribute or have any ideas. All my applications are open sourced on GitHub at <a href="http://github.com/benedwards44" target="_blank">http://github.com/benedwards44</a>.
-			        		</p>
-			        		<p>
-			        			If you haven't already, check out my other apps at the Salesforce Toolkit Page:<br/>
-			        			<a href="http://sftoolkit.co/" target="_blank">http://sftoolkit.co/</a>
+			        			Fill in this ABOUT page.
 			        		</p>
 			      		</div>
 			      		<div class="modal-footer">
@@ -123,9 +112,10 @@
 			  	</div>
 			</div>
 
-		{% endif %}
+		<!-- {% endif %} -->
 
-		<div class="{% if request.GET.noheader == '1' %}col-md-12{% else %}col-md-6 col-md-offset-3{% endif %}">
+		<!-- <div class="{% if request.GET.noheader == '1' %}col-md-12{% else %}col-md-6 col-md-offset-3{% endif %}"> -->
+					<div class="col-md-12">
 			{% block content %}{% endblock %}
 		</div>
 
