@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404, render
-from django.template import RequestContext
+# from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger, Flow, DeployJob, DeployJobComponent
@@ -138,7 +138,10 @@ def logout(request):
     # Determine logout url based on environment
     instance_prefix = request.GET.get('instance_prefix')
 
-    return render_to_response('logout.html', RequestContext(request, {'instance_prefix': instance_prefix}))
+    # return render_to_response('logout.html', RequestContext(request, {'instance_prefix': instance_prefix}))
+    
+    return render(request, 'logout.html', {'instance_prefix': instance_prefix})
+    
 
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, job_id):
@@ -168,7 +171,8 @@ def loading(request, job_id):
         return HttpResponseRedirect(return_url)
 
     else:
-        return render_to_response('loading.html', RequestContext(request, {'job': job}))
+        # return render_to_response('loading.html', RequestContext(request, {'job': job}))
+        return render(request, 'loading.html', {'job': job})
 
 def job(request, job_id):
     """
@@ -197,9 +201,13 @@ def job(request, job_id):
     wf_object_names.sort()
 
 
-    return render_to_response('job.html', RequestContext(request, { 'job': job, 'val_object_names': val_object_names, 'val_rules':
-job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
-job.flows() }))
+#     return render_to_response('job.html', RequestContext(request, { 'job': job, 'val_object_names': val_object_names, 'val_rules':
+# job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
+# job.flows() }))
+
+        return render(request, 'job.html', { 'job': job, 'val_object_names': val_object_names, 'val_rules':
+    job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
+    job.flows() })
 
 def update_metadata(request, job_id, metadata_type):
 
@@ -312,7 +320,7 @@ def auth_details(request):
             # Build response
             #TODO: Edit URL and put into config
             response_data = {
-                'job_url': 'https://sfswitch.herokuapp.com/loading/' + str(job.random_id) + '/?noheader=1',
+                'job_url': 'https://' + settings.DJANGO_APP_DOMAIN + '/loading/' + str(job.random_id) + '/?noheader=1',
                 'status': 'Success',
                 'success': True
             }
