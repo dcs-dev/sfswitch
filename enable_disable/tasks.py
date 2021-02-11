@@ -5,13 +5,13 @@ from django.conf import settings
 from zipfile import ZipFile
 from suds.client import Client
 from base64 import b64encode, b64decode
+import os
 import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
 django.setup()
 import requests
 import json
 import xml.etree.ElementTree as ET
-import os
 import glob
 import datetime
 import time
