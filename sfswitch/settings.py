@@ -211,7 +211,7 @@ def on_celery_setup_logging(**kwargs):
             'verbose': {
                 'format': '%(asctime)s %(process)d/%(thread)d %(name)s %(funcName)s %(lineno)s %(levelname)s %(message)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S'
-            }
+            },
             'simple': {
                 'format': '%(levelname)s %(message)s'
             }
