@@ -1,6 +1,3 @@
-import django
-django.setup()
-
 from __future__ import absolute_import
 from __future__ import unicode_literals
 from celery import Celery
@@ -8,6 +5,8 @@ from django.conf import settings
 from zipfile import ZipFile
 from suds.client import Client
 from base64 import b64encode, b64decode
+import django
+django.setup()
 import requests
 import json
 import xml.etree.ElementTree as ET
