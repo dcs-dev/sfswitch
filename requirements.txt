@@ -12,6 +12,7 @@ requests==2.3.0
 #wsgiref==0.1.2
 redis==2.10.3
 whitenoise==5.2
+kombu==4.4.0
 celery==4.3
 django-sslify==0.2.4
 suds-community==0.8.4 
