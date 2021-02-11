@@ -205,9 +205,7 @@ def job(request, job_id):
 # job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
 # job.flows() }))
 
-        return render(request, 'job.html', { 'job': job, 'val_object_names': val_object_names, 'val_rules':
-    job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
-    job.flows() })
+    return render(request, 'job.html', { 'job': job, 'val_object_names': val_object_names, 'val_rules':job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':job.flows() })
 
 def update_metadata(request, job_id, metadata_type):
 
