@@ -48,7 +48,7 @@ def index(request):
     return render(request, 'index.html', {'login_form': login_form})
 
 def oauth_response(request):
-    logger.debug("New request to oauth page: %s", request)
+    logger.info("New request to oauth page: %s", request)
     error_exists = False
     error_message = ''
     username = ''
