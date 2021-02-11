@@ -1,5 +1,6 @@
 import os
 import sys
+import logging.config
 from celery import signals
 try:
     import urlparse
@@ -199,7 +200,15 @@ LOGGING = {
         'sfswitch': {
             'handlers': ['console'],
             'level': 'DEBUG',
-        }
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'dcs-sftoolkit': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
     }
 }
  
