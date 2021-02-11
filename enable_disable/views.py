@@ -12,6 +12,7 @@ import uuid
 import json
 import requests
 import datetime
+import logging
 from time import sleep
 import sys
 from urllib.parse import urlencode  # will be needed python 3
@@ -20,6 +21,8 @@ from urllib.parse import urlencode  # will be needed python 3
 
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
+
+logger = logging.getLogger(__name__)
 
 def index(request):
 
@@ -45,7 +48,7 @@ def index(request):
     return render(request, 'index.html', {'login_form': login_form})
 
 def oauth_response(request):
-
+    logger.debug("New request to oauth page: %s", request)
     error_exists = False
     error_message = ''
     username = ''
@@ -109,7 +112,8 @@ def oauth_response(request):
                 return HttpResponseRedirect('/logout?instance_prefix=' + instance_url.replace('https://','').replace('.salesforce.com',''))
 
             if 'get_metadata' in request.POST:
-
+                logger.debug("Get Metadata Button Pressed")
+                #TODO: Simplify how a job is started in Celery
                 job = Job()
                 job.random_id = uuid.uuid4()
                 job.created_date = datetime.datetime.now()
