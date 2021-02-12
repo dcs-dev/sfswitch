@@ -1,6 +1,6 @@
 from celery import Celery
 from celery.result import AsyncResult
-from celery import task, shared_task, current_task, signature, group, chord, states
+from celery import shared_task, current_task, signature, group, chord, states
 from zipfile import ZipFile
 from suds.client import Client
 from base64 import b64encode, b64decode
