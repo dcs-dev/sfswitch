@@ -200,43 +200,44 @@ LOGGING = {
     }
 }
  
-# Celery Logging Setup
-# @signals.setup_logging.connect
-# def on_celery_setup_logging(**kwargs):
-#     config = {
-#         'version': 1,
-#         'disable_existing_loggers': False,
-#         'formatters': {
-#             'verbose': {
-#                 'format': '%(asctime)s %(process)d/%(thread)d %(name)s %(funcName)s %(lineno)s %(levelname)s %(message)s',
-#                 'datefmt': '%Y-%m-%d %H:%M:%S'
-#             },
-#             'simple': {
-#                 'format': '%(levelname)s %(message)s'
-#             }
-#         },
-#         'handlers': {
-#             'null': {
-#                 'level': 'DEBUG',
-#                 'class': 'logging.NullHandler',
-#             },
-#             'celery': {
-#                 'level': 'DEBUG',
-#                 'class': 'logging.StreamHandler',
-#                 'formatter': 'verbose'
-#             }
-#         },
-#         'loggers': {
-#             'celery': {
-#                 'handlers': ['celery'],
-#                 'level': 'DEBUG',
-#                 'propagate': False
-#             },
-#         },
-#         'root': {
-#             'handlers': ['celery'],
-#             'level': 'DEBUG'
-#         },
-#     }
-#
-#     logging.config.dictConfig(config)
+## Celery Logging Setup
+@signals.setup_logging.connect
+def on_celery_setup_logging(**kwargs):
+    config = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '%(asctime)s %(process)d/%(thread)d %(name)s %(funcName)s %(lineno)s %(levelname)s %(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S'
+            },
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            }
+        },
+        'handlers': {
+            'null': {
+                'level': 'DEBUG',
+                'class': 'logging.NullHandler',
+            },
+            'celery': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose',
+                'stream':sys.stdout
+            }
+        },
+        'loggers': {
+            'celery': {
+                'handlers': ['celery'],
+                'level': 'DEBUG',
+                'propagate': False
+            },
+        },
+        'root': {
+            'handlers': ['celery'],
+            'level': 'DEBUG'
+        },
+    }
+
+    logging.config.dictConfig(config)
