@@ -151,7 +151,7 @@ DJANGO_APP_DOMAIN = os.environ['DJANGO_APP_DOMAIN']
 
 # OAuth configuration for Web app
 SALESFORCE_REDIRECT_URI = 'https://' + DJANGO_APP_DOMAIN + '/oauth_response'
-SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
+SALESFORCE_API_VERSION = os.environ['SALESFORCE_API_VERSION']
 SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
 SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 
@@ -234,10 +234,10 @@ def on_celery_setup_logging(**kwargs):
                 'level': 'DEBUG',
                 'propagate': False
             },
-        },
-        'root': {
-            'handlers': ['celery'],
-            'level': 'DEBUG'
+            'dcs-sftoolkit': {
+                'handlers': ['celery'],
+                'level': 'DEBUG',
+            },
         },
     }
 
