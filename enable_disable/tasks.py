@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
-from celery import Celery, task
+from celery import Celery
 from celery.result import AsyncResult
 from zipfile import ZipFile
 from suds.client import Client
