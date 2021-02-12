@@ -6,7 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger, Flow, DeployJob, DeployJobComponent
 from enable_disable.forms import LoginForm
 from django.conf import settings
-from enable_disable.tasks import get_metadata, deploy_metadata
+from django.core import serializers
+from django.core.serializers import serialize, deserialize
+# from enable_disable.tasks import get_metadata, deploy_metadata
+from celery import current_app, current_task, chord
+from celeryapp.tasks import get_metadata, deploy_metadata
+# from celeryapp.tasks import *
+from celery.result import AsyncResult
 from suds.client import Client
 import uuid
 import json
@@ -16,11 +22,7 @@ import logging
 from time import sleep
 import sys
 from urllib.parse import urlencode  # will be needed python 3
-# from urllib import urlencode
-# import urllib
 
-# reload(sys)
-# sys.setdefaultencoding("utf-8")
 
 logger = logging.getLogger(__name__)
 
@@ -127,9 +129,12 @@ def oauth_response(request):
                 job.save()
 
                 # Start downloading metadata using async task
-                get_metadata.delay(job)
+                # get_metadata.delay(job)
+                task = get_metadata.delay(job.id)
+                
 
                 return HttpResponseRedirect('/loading/' + str(job.random_id))
+                # return HttpResponseRedirect('/loading/' + str(task.id))
 
     return render(request, 'oauth_response.html', {'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form})
 
@@ -245,7 +250,7 @@ def update_metadata(request, job_id, metadata_type):
             deploy_job_component.enable = component['enable']
             deploy_job_component.save()
 
-        deploy_metadata.delay(deploy_job)
+        deploy_metadata.delay(deploy_job.id)
 
     except Exception as error:
 

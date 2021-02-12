@@ -1,7 +1,6 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from celery import Celery, task
+from celery import Celery
 from celery.result import AsyncResult
+from celery import task, shared_task, current_task, signature, group, chord, states
 from zipfile import ZipFile
 from suds.client import Client
 from base64 import b64encode, b64decode
@@ -16,6 +15,8 @@ import time
 import sys
 import traceback
 from django.conf import settings
+from django.core import serializers
+from django.core.serializers import serialize, deserialize
 # import the logging library
 from celery.utils.log import get_task_logger
 import logging
@@ -26,15 +27,20 @@ from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger
 logger = get_task_logger(__name__)
 
 
-# # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.prod')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
-app = Celery('tasks', broker=settings.BROKER_URL)
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.prod')
+
+#TODO: Break this out into a separate Celery app and Celery config file
+# We want to avoid having to set the broker URL in this place.
+# app = Celery('tasks', broker=os.environ.get('REDISTOGO_URL', 'redis://localhost'))
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfswitch.settings')
+# app = Celery('celeryapp', broker=settings.BROKER_URL)
 
 
-
-@app.task
-def get_metadata(job):
-    logger.debug("Starting get_metadata task - OLD TASKS ")
+# @app.task
+@shared_task
+def get_metadata(job_id):
+    logger.debug("Starting get_metadata task")
+    job = Job.objects.get(id=job_id)
     job.status = 'Downloading Metadata'
     job.save()
 
@@ -43,6 +49,9 @@ def get_metadata(job):
         # instantiate the metadata WSDL
         # metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.xml')
         # https://brave-bear-lnfru2-dev-ed.my.salesforce.com/services/wsdl/metadata
+        
+        logger.debug("API Version: %s", settings.SALESFORCE_API_VERSION)
+        logger.debug("Domain: %s", settings.DJANGO_APP_DOMAIN)
         metadata_client = Client('http://' + settings.DJANGO_APP_DOMAIN + '/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
         logger.debug("metadata client: %s", metadata_client)
 
@@ -294,7 +303,7 @@ def get_metadata(job):
                 job.json_message = retrieve_result
 
                 # Save the zip file result to server
-                zip_file = open('metadata.zip', 'w+')
+                zip_file = open('metadata.zip', 'wb+')
                 zip_file.write(b64decode(retrieve_result.zipFile))
                 zip_file.close()
 
@@ -349,16 +358,18 @@ def get_metadata(job):
     job.save()
 
 
-@app.task
-def deploy_metadata(deploy_job):
+# @app.task
+@shared_task
+def deploy_metadata(deploy_job_id):
 
+    deploy_job = DeployJob.objects.get(id=deploy_job_id)
     deploy_job.status = 'Deploying'
     deploy_job.save()
 
     # Set up metadata API connection
     # metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + str(settings.SALESFORCE_API_VERSION) + '.xml')
     # metadata_url = deploy_job.job.instance_url + '/services/Soap/m/' + str(settings.SALESFORCE_API_VERSION) + '.0/' + deploy_job.job.org_id
-    metadata_client = Client('http://sfswitch.herokuapp.com/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
+    metadata_client = Client('http://' + settings.DJANGO_APP_DOMAIN + '/static/metadata-' + settings.SALESFORCE_API_VERSION + '.xml')
     metadata_url = deploy_job.job.instance_url + '/services/Soap/m/' + settings.SALESFORCE_API_VERSION + '.0/' + deploy_job.job.org_id
     metadata_client.set_options(location = metadata_url)
     session_header = metadata_client.factory.create("SessionHeader")

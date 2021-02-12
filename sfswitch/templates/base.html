@@ -13,9 +13,6 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
 		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-switch.min.css' %}" />
 		
-		<!--
-		<link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" type="image/vnd.microsoft.icon" />
-		-->
 		
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
@@ -24,21 +21,9 @@
 
 		{% block scripts %}{% endblock %}
 
-		<!-- <script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		  ga('create', 'UA-18288189-23', 'auto');
-		  ga('send', 'pageview');
-
-		</script> -->
 	</head>	
 
 	<body>
-
-		<!-- {% if request.GET.noheader != '1' %} -->
 
 			<!-- Static navbar -->
 	      	<nav class="navbar navbar-default">
@@ -111,11 +96,7 @@
 			    	</div>
 			  	</div>
 			</div>
-
-		<!-- {% endif %} -->
-
-		<!-- <div class="{% if request.GET.noheader == '1' %}col-md-12{% else %}col-md-6 col-md-offset-3{% endif %}"> -->
-					<div class="col-md-12">
+		<div class="col-md-6 col-md-offset-3">
 			{% block content %}{% endblock %}
 		</div>
 

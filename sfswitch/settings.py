@@ -59,7 +59,7 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 # Add in request context processor
@@ -145,14 +145,6 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
-
-
-# Replace this value with the URL from ngrok when running locally
-# **NOTE: This must match the value in the connected app in Salesforce
-# ngrok http 8000
-# LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
-# SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
 
 DJANGO_APP_DOMAIN = os.environ['DJANGO_APP_DOMAIN']
 
@@ -162,10 +154,6 @@ SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
 SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 
-# SALESFORCE_CONSUMER_KEY = '3MVG9Kip4IKAZQEVXeYMkMmDZFE7wRJE95oDlNnw7K_UOzkaTv9nKYuXXQqzhXUua5AJzsOy1IbeZeXZCMFcx'
-# SALESFORCE_CONSUMER_SECRET = '38A767732BB51833692D1DD5760D59B9CDFEC068B13F6B1A907820340EBF8B72'
-# # SALESFORCE_API_VERSION = '41'
-# SALESFORCE_API_VERSION = '38'
 
 ############################################################
 # Logging Setup

@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('oauth_response', views.oauth_response, name='oauth_response'),
+    re_path(r'oauth_response?$', views.oauth_response, name='oauth_response'),
     path('logout', views.logout, name='logout'),
     re_path(r'^loading/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.loading),
     re_path(r'^job_status/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.job_status),
