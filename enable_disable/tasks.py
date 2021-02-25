@@ -96,6 +96,9 @@ def get_metadata(job):
 
         query_list = []
         loop_counter = 0
+        ##
+        job.status = 'Retrieving Validation Rules from Org' 
+        job.save()
 
         for validation_rule in validation_rules:
 
@@ -135,6 +138,8 @@ def get_metadata(job):
         query_list = []
         loop_counter = 0
 
+        job.status = 'Retrieving Workflow Rules from Org' 
+        job.save()
         for workflow in workflows:
 
             query_list.append(workflow)
