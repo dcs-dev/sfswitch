@@ -1,28 +1,33 @@
 from __future__ import unicode_literals
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, render
+# from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from enable_disable.models import Job, ValidationRule, WorkflowRule, ApexTrigger, Flow, DeployJob, DeployJobComponent
 from enable_disable.forms import LoginForm
 from django.conf import settings
-from enable_disable.tasks import get_metadata, deploy_metadata
+from django.core import serializers
+from django.core.serializers import serialize, deserialize
+# from enable_disable.tasks import get_metadata, deploy_metadata
+from celery import current_app, current_task, chord
+from celeryapp.tasks import get_metadata, deploy_metadata
+# from celeryapp.tasks import *
+from celery.result import AsyncResult
 from suds.client import Client
 import uuid
 import json
 import requests
 import datetime
+import logging
 from time import sleep
 import sys
-# from urllib.parse import urlencode  # will be needed python
-# from urllib import urlencode
-import urllib
+from urllib.parse import urlencode  # will be needed python 3
 
-# reload(sys)
-# sys.setdefaultencoding("utf-8")
+
+logger = logging.getLogger(__name__)
 
 def index(request):
-
+    logger.debug("New request to index page: %s", request)
     if request.method == 'POST':
 
         login_form = LoginForm(request.POST)
@@ -35,17 +40,17 @@ def index(request):
             if environment == 'Sandbox':
                 oauth_url = 'https://test.salesforce.com/services/oauth2/authorize'
 
-            # oauth_url =  urllib.parse.urlencode(oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment)
-            oauth_url =  oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&' + urllib.urlencode({'redirect_uri':settings.SALESFORCE_REDIRECT_URI}) + '&state='+ environment
+            #oauth_url =  urllib.parse.urlencode(oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&redirect_uri=' + settings.SALESFORCE_REDIRECT_URI + '&state='+ environment)
+            oauth_url =  oauth_url + '?response_type=code&client_id=' + settings.SALESFORCE_CONSUMER_KEY + '&' + urlencode({'redirect_uri':settings.SALESFORCE_REDIRECT_URI}) + '&state='+ environment
 
             return HttpResponseRedirect(oauth_url)
     else:
         login_form = LoginForm()
 
-    return render_to_response('index.html', RequestContext(request,{'login_form': login_form}))
+    return render(request, 'index.html', {'login_form': login_form})
 
 def oauth_response(request):
-
+    logger.info("New request to oauth page: %s", request)
     error_exists = False
     error_message = ''
     username = ''
@@ -109,7 +114,8 @@ def oauth_response(request):
                 return HttpResponseRedirect('/logout?instance_prefix=' + instance_url.replace('https://','').replace('.salesforce.com',''))
 
             if 'get_metadata' in request.POST:
-
+                logger.debug("Get Metadata Button Pressed")
+                #TODO: Simplify how a job is started in Celery
                 job = Job()
                 job.random_id = uuid.uuid4()
                 job.created_date = datetime.datetime.now()
@@ -123,18 +129,24 @@ def oauth_response(request):
                 job.save()
 
                 # Start downloading metadata using async task
-                get_metadata.delay(job)
+                # get_metadata.delay(job)
+                task = get_metadata.delay(job.id)
+                
 
                 return HttpResponseRedirect('/loading/' + str(job.random_id))
+                # return HttpResponseRedirect('/loading/' + str(task.id))
 
-    return render_to_response('oauth_response.html', RequestContext(request,{'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form}))
+    return render(request, 'oauth_response.html', {'error': error_exists, 'error_message': error_message, 'username': username, 'org_name': org_name, 'login_form': login_form})
 
 def logout(request):
 
     # Determine logout url based on environment
     instance_prefix = request.GET.get('instance_prefix')
 
-    return render_to_response('logout.html', RequestContext(request, {'instance_prefix': instance_prefix}))
+    # return render_to_response('logout.html', RequestContext(request, {'instance_prefix': instance_prefix}))
+    
+    return render(request, 'logout.html', {'instance_prefix': instance_prefix})
+    
 
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, job_id):
@@ -150,7 +162,7 @@ def job_status(request, job_id):
 
 # Page for user to wait for job to run
 def loading(request, job_id):
-
+    logger.debug("New request to loading: %s -- %s", request, job_id)
     job = get_object_or_404(Job, random_id = job_id)
 
     if job.status == 'Finished':
@@ -164,7 +176,8 @@ def loading(request, job_id):
         return HttpResponseRedirect(return_url)
 
     else:
-        return render_to_response('loading.html', RequestContext(request, {'job': job}))
+        # return render_to_response('loading.html', RequestContext(request, {'job': job}))
+        return render(request, 'loading.html', {'job': job})
 
 def job(request, job_id):
     """
@@ -193,9 +206,11 @@ def job(request, job_id):
     wf_object_names.sort()
 
 
-    return render_to_response('job.html', RequestContext(request, { 'job': job, 'val_object_names': val_object_names, 'val_rules':
-job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
-job.flows() }))
+#     return render_to_response('job.html', RequestContext(request, { 'job': job, 'val_object_names': val_object_names, 'val_rules':
+# job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':
+# job.flows() }))
+
+    return render(request, 'job.html', { 'job': job, 'val_object_names': val_object_names, 'val_rules':job.validation_rules(), 'wf_object_names': wf_object_names, 'wf_rules': job.workflow_rules(), 'triggers': job.triggers(), 'flows':job.flows() })
 
 def update_metadata(request, job_id, metadata_type):
 
@@ -235,7 +250,7 @@ def update_metadata(request, job_id, metadata_type):
             deploy_job_component.enable = component['enable']
             deploy_job_component.save()
 
-        deploy_metadata.delay(deploy_job)
+        deploy_metadata.delay(deploy_job.id)
 
     except Exception as error:
 
@@ -308,7 +323,7 @@ def auth_details(request):
             # Build response
             #TODO: Edit URL and put into config
             response_data = {
-                'job_url': 'https://sfswitch.herokuapp.com/loading/' + str(job.random_id) + '/?noheader=1',
+                'job_url': 'https://' + settings.DJANGO_APP_DOMAIN + '/loading/' + str(job.random_id) + '/?noheader=1',
                 'status': 'Success',
                 'success': True
             }

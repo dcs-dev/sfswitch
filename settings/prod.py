@@ -1,16 +1,8 @@
 import os
-import sys
-import logging.config
-from celery import signals
 try:
     import urlparse
 except ImportError:
     import urllib.parse as urlparse
-    
-
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.environ.get('SECRET_KEY')
-SECRET_KEY = 'test'
 
 ##BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,6 +11,9 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'test'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
@@ -47,7 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'import_export',
     'enable_disable',
-    'sfswitch',
+    'sfswitch'
 )
 
 MIDDLEWARE = (
@@ -59,7 +54,7 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 # Add in request context processor
@@ -105,9 +100,8 @@ DATABASES = {
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
-BROKER_URL = os.environ['BROKER_URL']
-CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
-CELERY_RESULT_BACKEND = os.environ['CELERY_RESULT_BACKEND']
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 # REDISTOGO_URL = 'redis://localhost:6379/0'
 
 # Internationalization
@@ -146,99 +140,26 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+# SALESFORCE_REDIRECT_URI = os.environ['SALESFORCE_REDIRECT_URI']
 
-DJANGO_APP_DOMAIN = os.environ['DJANGO_APP_DOMAIN']
+
+# Replace this value with the URL from ngrok when running locally
+# **NOTE: This must match the value in the connected app in Salesforce
+# ngrok http 8000
+# LOCAL_PROXY_DOMAIN = '7f0944a98dd2.ngrok.io'
+# SALESFORCE_OAUTH_DOMAIN = LOCAL_PROXY_DOMAIN
+
+SALESFORCE_OAUTH_DOMAIN = os.environ['SALESFORCE_OAUTH_DOMAIN']
 
 # OAuth configuration for Web app
-SALESFORCE_REDIRECT_URI = 'https://' + DJANGO_APP_DOMAIN + '/oauth_response'
-SALESFORCE_API_VERSION = os.environ['SALESFORCE_API_VERSION']
+SALESFORCE_REDIRECT_URI = 'https://' + SALESFORCE_OAUTH_DOMAIN + '/oauth_response'
+SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
 SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 
+# SALESFORCE_CONSUMER_KEY = '3MVG9Kip4IKAZQEVXeYMkMmDZFE7wRJE95oDlNnw7K_UOzkaTv9nKYuXXQqzhXUua5AJzsOy1IbeZeXZCMFcx'
+# SALESFORCE_CONSUMER_SECRET = '38A767732BB51833692D1DD5760D59B9CDFEC068B13F6B1A907820340EBF8B72'
+# # SALESFORCE_API_VERSION = '41'
+# SALESFORCE_API_VERSION = '38'
 
-############################################################
-# Logging Setup
-############################################################
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
-                        'pathname=%(pathname)s lineno=%(lineno)s ' +
-                        'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'stream':sys.stdout
-        }
-    },
-    'loggers': {
-        'sfswitch': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-        'dcs-sftoolkit': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    }
-}
- 
-## Celery Logging Setup
-@signals.setup_logging.connect
-def on_celery_setup_logging(**kwargs):
-    config = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'verbose': {
-                'format': '%(asctime)s %(process)d/%(thread)d %(name)s %(funcName)s %(lineno)s %(levelname)s %(message)s',
-                'datefmt': '%Y-%m-%d %H:%M:%S'
-            },
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            }
-        },
-        'handlers': {
-            'null': {
-                'level': 'DEBUG',
-                'class': 'logging.NullHandler',
-            },
-            'celery': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'verbose',
-                'stream':sys.stdout
-            }
-        },
-        'loggers': {
-            'celery': {
-                'handlers': ['celery'],
-                'level': 'DEBUG',
-                'propagate': False
-            },
-            'dcs-sftoolkit': {
-                'handlers': ['celery'],
-                'level': 'DEBUG',
-            },
-        },
-    }
 
-    logging.config.dictConfig(config)
