@@ -96,8 +96,9 @@ def get_metadata(job):
 
         query_list = []
         loop_counter = 0
-        ##
-        job.status = 'Retrieving Validation Rules from Org' 
+    
+
+        job.status = 'Retrieving Validation Rules from Org...' 
         job.save()
 
         for validation_rule in validation_rules:
@@ -138,7 +139,7 @@ def get_metadata(job):
         query_list = []
         loop_counter = 0
 
-        job.status = 'Retrieving Workflow Rules from Org' 
+        job.status = 'Retrieving Workflow Rules from Org...' 
         job.save()
         for workflow in workflows:
 
@@ -217,6 +218,8 @@ def get_metadata(job):
             'Authorization': 'Bearer ' + job.access_token
         }
 
+        job.status = 'Retrieving Flows and ProcessBuildersfrom Org...' 
+        job.save()
         flows_query = requests.get(request_url, headers = headers)
 
         if flows_query.status_code == 200 and 'records' in flows_query.json():
@@ -242,6 +245,8 @@ def get_metadata(job):
 
                     flow.save()
 
+        job.status = 'Retrieving Triggers from Org...' 
+        job.save()
         if triggers:
 
             # Get triggers
