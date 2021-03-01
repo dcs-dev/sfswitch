@@ -7,21 +7,20 @@
 		This tool provides an interface to easily enable and disable components in your Salesforce Org - Workflows, Triggers and Validation Rules. Very useful when doing data migrations and needing to disable certain automation.
 	</p>
 	<p>
-		None of your organisation information or data is captured or kept from running this tool.
+		None of your organization information or data is captured or kept from running this tool.
 	</p>
 				
 	<div class="loading-components">
-
 		<div style="float:left;">
 			<img src="{% static 'images/loading.gif' %}" alt="Loading" title="Loading" />
 		</div>
-
 		<div style="float:left;margin-left:20px;">
 			<h1 style="font-size:1.5em;margin-top:20px;">Querying metadata</h1>
-			<p>Building a list of validation rules, workflows and triggers...</p>
+			<p>Building a list of Org Metadata...</p>
+			<i class="status_message"></i>
 		</div>
-
 	</div>
+
 
 	<div class="error" style="display:none;">
 		<div class="alert alert-danger" role="alert">
@@ -57,12 +56,12 @@
 			        	$('.error_message').text(resp.error);
 			        }
 
-					 else {
-						$('.error').show();
-			        	$('.error_message').text(resp.status);
+					 else {// Else job is still running, this will re-run shortly.
+
+						$('.loading-components').show();
+			        	$('.status_message').text(resp.status);
 					 }
 					//}
-			        // Else job is still running, this will re-run shortly.
 			    },
 				// Request was not successful, handle the response by removing the 
 			    failure: function(resp) 
