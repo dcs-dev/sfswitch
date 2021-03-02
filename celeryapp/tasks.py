@@ -148,6 +148,9 @@ def get_metadata(job_id):
         query_list = []
         loop_counter = 0
 
+        job.status = 'Retrieving Workflow Rules from Org...' 
+        job.save()
+
         for workflow in workflows:
 
             query_list.append(workflow)
@@ -217,6 +220,10 @@ def get_metadata(job_id):
         # Note: Using the Tooling REST API, as the Metadata API didn't return the stuff I needed
         # And the Tooling SOAP API I couldn't get working
         # request_url = job.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/tooling/'
+
+        job.status = 'Retrieving Flows and ProcessBuildersfrom Org...' 
+        job.save()
+
         request_url = job.instance_url + '/services/data/v' + settings.SALESFORCE_API_VERSION + '.0/tooling/'
         request_url += 'query/?q=Select+Id,ActiveVersion.VersionNumber,LatestVersion.VersionNumber,DeveloperName+From+FlowDefinition'
         headers = {
@@ -224,7 +231,7 @@ def get_metadata(job_id):
             'X-PrettyPrint': 1,
             'Authorization': 'Bearer ' + job.access_token
         }
-
+     
         flows_query = requests.get(request_url, headers = headers)
 
         if flows_query.status_code == 200 and 'records' in flows_query.json():
@@ -249,6 +256,9 @@ def get_metadata(job_id):
                         flow.active = True
 
                     flow.save()
+
+        job.status = 'Retrieving Triggers from Org...' 
+        job.save()
 
         if triggers:
 
