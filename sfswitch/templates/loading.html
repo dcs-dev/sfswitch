@@ -65,6 +65,12 @@
 			        	$('.error_message').text(resp.error);
 			        }
 
+					else if (resp.status == 'Retrieving Validation Rules from Org...') {
+						$('.loading-components').hide();
+			        	$('.loading-metadata').show();
+						$('.status_message').text(resp.status);
+					}
+
 					 else {// Else job is still running, update to latest status
 						$('.loading-components').hide();
 			        	$('.loading-metadata').show();
