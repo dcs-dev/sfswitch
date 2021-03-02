@@ -36,7 +36,7 @@ app = Celery('tasks', broker=settings.BROKER_URL)
 def get_metadata(job):
     logger.debug("Starting get_metadata task - OLD TASKS ")
     job.status = 'Downloading Metadata'
-    job.save()
+    ##job.save()
 
     job.status = 'Retrieving Validation Rules from Org...' 
     job.save()
