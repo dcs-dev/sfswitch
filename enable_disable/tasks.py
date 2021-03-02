@@ -38,6 +38,9 @@ def get_metadata(job):
     job.status = 'Downloading Metadata'
     job.save()
 
+    job.status = 'Retrieving Validation Rules from Org...' 
+    job.save()
+
     try:
         #TODO: Edit URL and put into config
         # instantiate the metadata WSDL
