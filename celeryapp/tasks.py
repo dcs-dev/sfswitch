@@ -106,6 +106,10 @@ def get_metadata(job_id):
         query_list = []
         loop_counter = 0
 
+
+        job.status = 'Retrieving Validation Rules from Org...' 
+        job.save()
+
         for validation_rule in validation_rules:
 
             query_list.append(validation_rule)
