@@ -21,16 +21,6 @@
 		</div>
 	</div>
 
-	<div class="loading-metadata">
-		<div style="float:left;">
-			<img src="{% static 'images/loading.gif' %}" alt="Loading" title="Loading" />
-		</div>
-		<div style="float:left;margin-left:20px;">
-			<h1 style="font-size:1.5em;margin-top:20px;">Querying metadata</h1>
-			<i class="status_message"></i>
-		</div>
-	</div>
-
 	<div class="error" style="display:none;">
 		<div class="alert alert-danger" role="alert">
 			<p>
@@ -66,14 +56,11 @@
 			        }
 
 					else if (resp.status == 'Retrieving Validation Rules from Org...') {
-						$('.loading-components').hide();
-			        	$('.loading-metadata').show();
+	
 						$('.status_message').text(resp.status);
 					}
 
 					 else {// Else job is still running, update to latest status
-						$('.loading-components').hide();
-			        	$('.loading-metadata').show();
 						$('.status_message').text(resp.status);
 					}
 			    },
