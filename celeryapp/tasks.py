@@ -535,11 +535,15 @@ def deploy_metadata(deploy_job_id):
             logger.debug("About to write API version to Package XML" )
             package_xml.write('    <version>' + settings.SALESFORCE_API_VERSION + '.0</version>\n')
             package_xml.write('</Package>')
+            
             package_xml.close()
 
             logger.debug("Package XML content before writing to zip file: %s", os.listdir(path='.') )
 
+
             zip_file.write('package.xml')
+            logger.debug("Contents of ZIP file before closing: %s", zip_file.infolist()  )
+
             zip_file.close()
 
             # Open and encode zip file
