@@ -525,10 +525,14 @@ def deploy_metadata(deploy_job_id):
                 zip_file.write('triggers/' + deploy_component.trigger.name + '.trigger-meta.xml')
 
             # Create package.xml
+            logger.debug("About to create Package XML" )
             package_xml = open('package.xml','w+')
+            logger.debug("Started creating Package XML" )
+
             package_xml.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             package_xml.write('<Package xmlns="http://soap.sforce.com/2006/04/metadata">\n')
             package_xml.write('    <types>\n        <members>*</members>\n        <name>ApexTrigger</name>\n    </types>\n')
+            logger.debug("About to write API version to Package XML" )
             package_xml.write('    <version>' + settings.SALESFORCE_API_VERSION + '.0</version>\n')
             package_xml.write('</Package>')
             package_xml.close()
