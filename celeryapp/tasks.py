@@ -529,9 +529,11 @@ def deploy_metadata(deploy_job_id):
             package_xml.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             package_xml.write('<Package xmlns="http://soap.sforce.com/2006/04/metadata">\n')
             package_xml.write('    <types>\n        <members>*</members>\n        <name>ApexTrigger</name>\n    </types>\n')
-            package_xml.write('    <version>' + str(settings.SALESFORCE_API_VERSION) + '.0</version>\n')
+            package_xml.write('    <version>' + settings.SALESFORCE_API_VERSION + '.0</version>\n')
             package_xml.write('</Package>')
             package_xml.close()
+
+            logger.debug("Package XML content before writing to zip file: %s", os.listdir(path=‘.’) )
 
             zip_file.write('package.xml')
             zip_file.close()
