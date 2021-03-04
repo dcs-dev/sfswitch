@@ -533,7 +533,7 @@ def deploy_metadata(deploy_job_id):
             package_xml.write('</Package>')
             package_xml.close()
 
-            logger.debug("Package XML content before writing to zip file: %s", os.listdir(path=‘.’) )
+            logger.debug("Package XML content before writing to zip file: %s", os.listdir(path='.') )
 
             zip_file.write('package.xml')
             zip_file.close()
